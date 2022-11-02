@@ -35,5 +35,10 @@ class AuthController extends Controller
         return Response::withoutData(false, 'Email or password is incorrect');
     }
 
+    public function logout(){
+        auth()->user()->tokens()->delete();
+        return Response::withData(true, 'Logout Success', auth()->user());
+    }
+
 
 }
