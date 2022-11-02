@@ -40,5 +40,8 @@ class AuthController extends Controller
         return Response::withData(true, 'Logout Success', auth()->user());
     }
 
-
+    public function logged_user(){
+        $loggeduser = auth()->user();
+        return Response::withData(true, 'Logged User Data', $loggeduser);
+    }
 }
