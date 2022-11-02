@@ -23,5 +23,17 @@ class AuthController extends Controller
         return Response::withData(true, 'Registration Success.. Check your email for verification', $token);
     }
 
+    public function login(LoginRequest $request){
+        $user = User::where('email', $request->email)->first();
+        if($user && Hash::check($request->password, $user->password)){
+            if($user->email_verified_at){
+                $token = $user->createToken($request->email)->plainTextToken;
+                return Response::withData(true, 'Login Success', $token);
+            }
+            return Response::withoutData(false, 'Verify e-mail address');
+        }
+        return Response::withoutData(false, 'Email or password is incorrect');
+    }
+
 
 }
