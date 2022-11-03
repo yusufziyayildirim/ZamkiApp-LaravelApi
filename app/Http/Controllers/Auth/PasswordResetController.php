@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Mail;
 use Illuminate\Mail\Message;
 use App\Http\Requests\Auth\PasswordResetRequest;
+use App\Http\Controllers\Response;
 
 class PasswordResetController extends Controller
 {
@@ -24,10 +25,7 @@ class PasswordResetController extends Controller
         // Check User's Email Exists or Not
         $user = User::where('email', $email)->first();
         if(!$user){
-            return response([
-                'message'=>'Email doesnt exists',
-                'status'=>'failed'
-            ], 404);
+            return Response::withoutData(false, 'Email doesnt exists', 404);
         }
 
         // Generate Token
@@ -39,15 +37,12 @@ class PasswordResetController extends Controller
         ]);
 
         // Sending EMail with Password Reset View
-        Mail::send('aut.password-reset-mail', ['token'=>$token], function(Message $message) use ($email){
+        Mail::send('auth.password-reset-mail', ['token'=>$token], function(Message $message) use ($email){
             $message->subject('Reset Your Password');
             $message->to($email);
         });
 
-        return response([
-            'message'=>'Password Reset Email Sent... Check Your Email',
-            'status'=>'success'
-        ], 200);
+        return Response::withoutData(true, 'Password Reset Email Sent... Check Your Email', 200);
     }
 
     public function reset_form($token){
@@ -68,10 +63,7 @@ class PasswordResetController extends Controller
         $passwordreset = PasswordReset::where('token', $token)->first();
 
         if(!$passwordreset){
-            return response([
-                'message'=>'Token is Invalid or Expired',
-                'status'=>'failed'
-            ], 404);
+            return Response::withoutData(false, 'Token is Invalid or Expired', 404);
         }
 
         $user = User::where('email', $passwordreset->email)->first();
@@ -81,9 +73,12 @@ class PasswordResetController extends Controller
         // Delete the token after resetting password
         PasswordReset::where('email', $user->email)->delete();
 
+        return Response::withoutData(true, 'Password Reset Success', 200);
+
         return response([
             'message'=>'Password Reset Success',
             'status'=>'success'
         ], 200);
+
     }
 }

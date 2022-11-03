@@ -15,8 +15,8 @@ class ChangePasswordController extends Controller
         if(Hash::check($request->password, $loggeduser->password)){
             $loggeduser->password = Hash::make($request->new_password);
             $loggeduser->save();
-            return Response::withoutData(true, 'Password Changed Successfully');
+            return Response::withoutData(true, 'Password Changed Successfully', 200);
         }
-        return Response::withoutData(true, 'Old password is incorrect');
+        return Response::withoutData(false, 'Old password is incorrect', 400);
     }
 }
