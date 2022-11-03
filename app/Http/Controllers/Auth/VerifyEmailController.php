@@ -24,7 +24,12 @@ class VerifyEmailController extends Controller
     }
 
     public function resendNotification(Request $request) {
-        $request->user()->sendEmailVerificationNotification();
-        return Response::withoutData(true, 'Verification link sent');
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+        $email = $request->email;
+        $user = User::where('email', $email)->first();
+        $user->sendEmailVerificationNotification();
+        return Response::withoutData(true, 'Verification link sent', 200);
     }
 }
