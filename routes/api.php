@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,4 +27,5 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/loggeduser', [AuthController::class, 'logged_user']);
     Route::post('/changepassword', [ChangePasswordController::class, 'change_password']);
+    Route::get('/getalluser', [UserController::class, 'getAllUser']);
 });
