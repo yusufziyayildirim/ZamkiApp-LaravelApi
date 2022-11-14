@@ -41,7 +41,10 @@ class AuthController extends Controller
     }
 
     public function logged_user(){
-        $loggeduser = auth()->user();
+
+        $loggeduser = User::where('id',  auth()->id())
+        ->with('NativeIn','AlsoSpeaking','Learning')
+        ->get();
         return Response::withData(true, 'Logged User Data', $loggeduser, 200);
     }
 }

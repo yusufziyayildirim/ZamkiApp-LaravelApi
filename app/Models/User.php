@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\NativeIn;
+use App\Models\AlsoSpeaking;
+use App\Models\Learning;
+
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -45,5 +49,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function scopeVerified($query)
     {
         return $query->whereNotNull('email_verified_at');
+    }
+
+    public function NativeIn() {
+        return $this->hasMany(NativeIn::class);
+    }
+    public function AlsoSpeaking() {
+        return $this->hasMany(AlsoSpeaking::class);
+    }
+    public function Learning() {
+        return $this->hasMany(Learning::class);
     }
 }

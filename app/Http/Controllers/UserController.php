@@ -10,6 +10,7 @@ class UserController extends Controller
 {
     public function getAllUser(){
         $user = User::where('id', '!=', auth()->id())
+        ->with('NativeIn','AlsoSpeaking','Learning')
         ->verified()
         ->orderBy('created_at', 'desc')
         ->get();
