@@ -16,4 +16,12 @@ class UserController extends Controller
         ->get();
         return Response::withData(true, 'Get all user', $user, 200);
     }
+    public function getUser(Request $request){
+        $user = User::where('email', $request->email)
+        ->with('NativeIn','AlsoSpeaking','Learning')
+        ->verified()
+        ->orderBy('created_at', 'desc')
+        ->first();
+        return Response::withData(true, 'Get user', $user, 200);
+    }
 }

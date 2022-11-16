@@ -28,4 +28,5 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::get('/loggeduser', [AuthController::class, 'logged_user']);
     Route::post('/changepassword', [ChangePasswordController::class, 'change_password']);
     Route::get('/getalluser', [UserController::class, 'getAllUser']);
+    Route::get('/getuser', [UserController::class, 'getUser']);
 });
