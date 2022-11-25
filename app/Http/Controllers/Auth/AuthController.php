@@ -18,9 +18,8 @@ class AuthController extends Controller
             'email'=>$request->email,
             'password'=>Hash::make($request->password)
         ]);
-        $token = $user->createToken($request->email)->plainTextToken;
         event(new Registered($user));
-        return Response::withData(true, 'Registration Success.. Check your email for verification', $token, 200);
+        return Response::withoutData(true, 'Registration Success.. Check your email for verification', 200);
     }
 
     public function login(LoginRequest $request){
@@ -36,12 +35,11 @@ class AuthController extends Controller
     }
 
     public function logout(){
-        auth()->user()->tokens()->delete();
+        auth()->user()->currentAccessToken()->delete();
         return Response::withData(true, 'Logout Success', auth()->user(), 200);
     }
 
     public function logged_user(){
-
         $loggeduser = User::where('id',  auth()->id())
         ->with('NativeIn','AlsoSpeaking','Learning')
         ->get();
