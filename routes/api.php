@@ -26,7 +26,13 @@ Route::post('/email/verification-notification', [VerifyEmailController::class, '
 Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/loggeduser', [AuthController::class, 'logged_user']);
+
     Route::post('/changepassword', [ChangePasswordController::class, 'change_password']);
+
     Route::get('/getalluser', [UserController::class, 'getAllUser']);
     Route::get('/getuser', [UserController::class, 'getUser']);
+    Route::post('/setuserlanguage', [UserController::class, 'setUserLanguage']);
+    Route::post('/update/nativeinlanguage', [UserController::class, 'updateNativeInLanguage']);
+    Route::post('/update/alsospeakinglanguage', [UserController::class, 'updateAlsoSpeakingLanguage']);
+    Route::post('/update/learninglanguage', [UserController::class, 'updateLearningLanguage']);
 });
