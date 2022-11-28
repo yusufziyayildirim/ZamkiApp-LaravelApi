@@ -20,7 +20,7 @@ class PasswordResetController extends Controller
         $request->validate([
             'email' => 'required|email',
         ]);
-        $email = $request->email;
+        $email = Str::lower($request->email);
 
         // Check User's Email Exists or Not
         $user = User::where('email', $email)->first();

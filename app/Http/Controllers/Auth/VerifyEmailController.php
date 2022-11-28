@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Response;
 use App\Models\User;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Support\Str;
 
 class VerifyEmailController extends Controller
 {
@@ -27,7 +28,7 @@ class VerifyEmailController extends Controller
         $request->validate([
             'email' => 'required|email',
         ]);
-        $email = $request->email;
+        $email = Str::lower($request->email);
         $user = User::where('email', $email)->first();
         $user->sendEmailVerificationNotification();
         return Response::withoutData(true, 'Verification link sent', 200);

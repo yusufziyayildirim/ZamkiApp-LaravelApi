@@ -9,13 +9,14 @@ use App\Models\User;
 use App\Http\Controllers\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
     public function register(RegisterRequest $request){
         $user = User::create([
             'name'=>$request->name,
-            'email'=>$request->email,
+            'email'=>Str::lower($request->email),
             'password'=>Hash::make($request->password)
         ]);
         event(new Registered($user));
@@ -23,10 +24,11 @@ class AuthController extends Controller
     }
 
     public function login(LoginRequest $request){
-        $user = User::where('email', $request->email)->first();
+        $email=Str::lower($request->email);
+        $user = User::where('email', $email)->first();
         if($user && Hash::check($request->password, $user->password)){
             if($user->email_verified_at){
-                $token = $user->createToken($request->email)->plainTextToken;
+                $token = $user->createToken($email)->plainTextToken;
                 return Response::withData(true, 'Login Success', $token, 200);
             }
             return Response::withoutData(false, 'Verify e-mail address', 400);

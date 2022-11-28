@@ -7,7 +7,7 @@ use App\Models\AlsoSpeaking;
 use App\Models\Learning;
 use App\Http\Controllers\Response;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -21,7 +21,7 @@ class UserController extends Controller
     }
 
     public function getUser(Request $request){
-        $user = User::where('email', $request->email)
+        $user = User::where('email', Str::lower($request->email))
         ->with('NativeIn','AlsoSpeaking','Learning')
         ->verified()
         ->orderBy('created_at', 'desc')
