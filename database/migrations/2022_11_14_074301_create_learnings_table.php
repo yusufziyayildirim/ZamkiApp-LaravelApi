@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('lang');
-            $table->string('level');
+            $table->integer('lang');
+            $table->integer('level');
             $table->timestamps();
 
             $table->index('user_id');
