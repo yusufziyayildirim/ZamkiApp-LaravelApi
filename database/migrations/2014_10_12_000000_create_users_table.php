@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->text('desc')->default('Hello! I am using ZamkiApp.');
             $table->string('img')->default('');
+            $table->tinyInteger('setup')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
