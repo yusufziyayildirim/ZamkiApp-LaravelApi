@@ -30,7 +30,10 @@ class VerifyEmailController extends Controller
         ]);
         $email = Str::lower($request->email);
         $user = User::where('email', $email)->first();
-        $user->sendEmailVerificationNotification();
-        return Response::withoutData(true, 'Verification link sent', 200);
+        if($user){
+            $user->sendEmailVerificationNotification();
+            return Response::withoutData(true, 'Verification link sent', 200);
+        }
+        return Response::withoutData(false, 'Email doesnt exists', 404);
     }
 }
