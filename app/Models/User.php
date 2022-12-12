@@ -51,13 +51,27 @@ class User extends Authenticatable implements MustVerifyEmail
         return $query->whereNotNull('email_verified_at');
     }
 
-    public function NativeIn() {
+    public function nativeIn() {
         return $this->hasMany(NativeIn::class);
     }
     public function AlsoSpeaking() {
         return $this->hasMany(AlsoSpeaking::class);
     }
-    public function Learning() {
+    public function learning() {
         return $this->hasMany(Learning::class);
+    }
+
+
+    public function references()
+    {
+        return $this->hasMany('App\Models\Reference', 'to_user_id', 'id');
+    }
+
+    // Kullanıcının birden fazla referans veren kullanıcısı olabilir
+    public function fromUsers()
+    {
+        return $this->belongsToMany('App\Models\User', 'references', 'to_user_id', 'from_user_id')
+        ->with('nativeIn','alsoSpeaking','learning')
+        ->withTimestamps();
     }
 }

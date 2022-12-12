@@ -36,4 +36,6 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('/update/alsospeakinglanguage', [UserController::class, 'updateAlsoSpeakingLanguage']);
     Route::post('/update/learninglanguage', [UserController::class, 'updateLearningLanguage']);
     Route::post('/update/profile', [UserController::class, 'updateProfile']);
+
+    Route::get('/getreferences', [UserController::class, 'getUserReference']);
 });
