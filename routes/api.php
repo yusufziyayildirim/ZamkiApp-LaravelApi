@@ -31,6 +31,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
 
     Route::get('/getalluser', [UserController::class, 'getAllUser']);
     Route::get('/getuser', [UserController::class, 'getUser']);
+    Route::get('/searchuser', [UserController::class, 'searchUser']);
     Route::post('/setuserlanguage', [UserController::class, 'setUserLanguage']);
     Route::post('/update/nativeinlanguage', [UserController::class, 'updateNativeInLanguage']);
     Route::post('/update/alsospeakinglanguage', [UserController::class, 'updateAlsoSpeakingLanguage']);

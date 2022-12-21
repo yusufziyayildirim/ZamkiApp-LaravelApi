@@ -26,6 +26,16 @@ class UserController extends Controller
     }
 
     public function getUser(Request $request){
+        $user = User::where('email', '=', $request->email)
+        ->with('nativeIn','alsoSpeaking','learning','references.fromUser')
+        ->withCount('references')
+        ->verified()
+        ->orderBy('created_at', 'desc')
+        ->first();
+        return Response::withData(true, 'Get user', $user, 200);
+    }
+
+    public function searchUser(Request $request){
         $user = User::where('id', '!=', auth()->id())
         ->where('name', 'like', '%'.$request->name.'%')
         ->where('setup', '=', 1)
@@ -172,6 +182,6 @@ class UserController extends Controller
         ->orderBy('updated_at', 'desc')
         ->get();
 
-        return Response::withData(true, 'Get all user', $references, 200);
+        return Response::withData(true, 'Get user references', $references, 200);
     }
 }
