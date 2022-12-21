@@ -22,6 +22,6 @@ class Reference extends Model
 
     public function fromUser()
     {
-        return $this->belongsTo('App\Models\User', 'from_user_id', 'id');
+        return $this->belongsTo('App\Models\User', 'from_user_id', 'id')->withCount('references');
     }
 }
